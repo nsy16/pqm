@@ -1,1 +1,1 @@
-in
+Put your print driver dmg in this folder
