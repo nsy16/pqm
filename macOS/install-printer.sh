@@ -57,15 +57,15 @@ echo "Set Printer Tray Options"
 for (( i=0; i<${#pnam[@]}; i++ ));
 do
   queuename="${pnam[$i]// /_}"
-  lpadmin -p "$queuename" -o "${trayOpt1[$i]}"
-  lpadmin -p "$queuename" -o "${trayOpt2[$i]}"
-  lpadmin -p "$queuename" -o "${trayOpt3[$i]}"
-  lpadmin -p "$queuename" -o "${trayOpt4[$i]}"
-  lpadmin -p "$queuename" -o "${trayOpt5[$i]}"
-  lpadmin -p "$queuename" -o "${trayOpt6[$i]}"
-  lpadmin -p "$queuename" -o "${trayOpt7[$i]}"
-  lpadmin -p "$queuename" -o "${trayOpt8[$i]}"
-  echo lpadmin -p "$queuename" -o "${trayOpt9[$i]}"
+  if [ ! -z "${trayOpt1[$i]+x}" ]; then lpadmin -p "$queuename" -o "${trayOpt1[$i]}"; fi
+  if [ ! -z "${trayOpt2[$i]+x}" ]; then lpadmin -p "$queuename" -o "${trayOpt2[$i]}"; fi
+  if [ ! -z "${trayOpt3[$i]+x}" ]; then lpadmin -p "$queuename" -o "${trayOpt3[$i]}"; fi
+  if [ ! -z "${trayOpt4[$i]+x}" ]; then lpadmin -p "$queuename" -o "${trayOpt4[$i]}"; fi
+  if [ ! -z "${trayOpt5[$i]+x}" ]; then lpadmin -p "$queuename" -o "${trayOpt5[$i]}"; fi
+  if [ ! -z "${trayOpt6[$i]+x}" ]; then lpadmin -p "$queuename" -o "${trayOpt6[$i]}"; fi
+  if [ ! -z "${trayOpt7[$i]+x}" ]; then lpadmin -p "$queuename" -o "${trayOpt7[$i]}"; fi
+  if [ ! -z "${trayOpt8[$i]+x}" ]; then lpadmin -p "$queuename" -o "${trayOpt8[$i]}"; fi
+  if [ ! -z "${trayOpt9[$i]+x}" ]; then lpadmin -p "$queuename" -o "${trayOpt9[$i]}"; fi
 done
 
 ## set custom options for this printer - note bash does not support multidimensional arrays so different language may be needed
@@ -74,15 +74,15 @@ echo "Set Default Options"
 for (( i=0; i<${#pnam[@]}; i++ ));
 do
   queuename="${pnam[$i]// /_}"
-  lpadmin -p "$queuename" -o "${customOpt1[$i]}"
-  lpadmin -p "$queuename" -o "${customOpt2[$i]}"
-  lpadmin -p "$queuename" -o "${customOpt3[$i]}"
-  lpadmin -p "$queuename" -o "${customOpt4[$i]}"
-  lpadmin -p "$queuename" -o "${customOpt5[$i]}"
-  lpadmin -p "$queuename" -o "${customOpt6[$i]}"
-  lpadmin -p "$queuename" -o "${customOpt7[$i]}"
-  lpadmin -p "$queuename" -o "${customOpt8[$i]}"
-  echo lpadmin -p "$queuename" -o "${customOpt9[$i]}"
+  if [ ! -z "${customOpt1[$i]+x}" ]; then lpadmin -p "$queuename" -o "${customOpt1[$i]}"; fi
+  if [ ! -z "${customOpt2[$i]+x}" ]; then lpadmin -p "$queuename" -o "${customOpt2[$i]}"; fi
+  if [ ! -z "${customOpt3[$i]+x}" ]; then lpadmin -p "$queuename" -o "${customOpt3[$i]}"; fi
+  if [ ! -z "${customOpt4[$i]+x}" ]; then lpadmin -p "$queuename" -o "${customOpt4[$i]}"; fi
+  if [ ! -z "${customOpt5[$i]+x}" ]; then lpadmin -p "$queuename" -o "${customOpt5[$i]}"; fi
+  if [ ! -z "${customOpt6[$i]+x}" ]; then lpadmin -p "$queuename" -o "${customOpt6[$i]}"; fi
+  if [ ! -z "${customOpt7[$i]+x}" ]; then lpadmin -p "$queuename" -o "${customOpt7[$i]}"; fi
+  if [ ! -z "${customOpt8[$i]+x}" ]; then lpadmin -p "$queuename" -o "${customOpt8[$i]}"; fi
+  if [ ! -z "${customOpt9[$i]+x}" ]; then lpadmin -p "$queuename" -o "${customOpt9[$i]}"; fi  
 done
 
 ## rename printers
