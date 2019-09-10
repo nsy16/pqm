@@ -1,3 +1,0 @@
-Download .app
-Create driver folder into same folder running .app from
-Download driver installer dmg into driver folder. To find the driver refer to the .sh script.

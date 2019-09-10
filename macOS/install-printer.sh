@@ -2,36 +2,12 @@
 
 # paths
 parentdir="../../.."
+parentdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# print driver
-#https://support.sharp.net.au/drivers/software_licence.asp?section=COP&filename=MXC52c_1906a_MacOS.dmg
-dmg[0]="driver/MXC52c_1906a_MacOS.dmg"
-pkg[0]="MX-C52.pkg"
+config=printer-settings.conf
 
-# adobe acrobat (used to set preset)
-dmg[1]="AcroRdrDC_1901220036_MUI.dmg"
-pkg[1]="AcroRdrDC_1901220036_MUI.pkg"
-
-
-# printqueue
-printname="Workroom_Copier"
-location="Head Office"
-ip="172.16.3.1"
-driver="SHARP MX-5050V.PPD.gz"
-
-## show mode printer supports
-#lpoptions -l -p $printname
-
-# tray options
-trayOpt[0]="Option1=SSFinisher"
-trayOpt[1]="Option2=Installed"
-trayOpt[2]="Option3=Installed"
-trayOpt[3]="Option5=TandemTrayDrawer"
-
-# custom defaults
-# black and white default
-customOpt[0]="ARCMode=CMBW"
-
+# load config file`
+. "$parentdir/$config"
 
 
 installdiskimage() {
@@ -56,27 +32,65 @@ installpkg() {
 
 
 # install DMG
+echo ""
+echo "Install print drivers"
 for (( i=0; i<${#dmg[@]}; i++ ));
 do
-   echo $i
-   installdiskimage "$parentdir/${dmg[$i]}" "${pkg[$i]}"
+  installdiskimage "$parentdir/${dmg[$i]}" "${pkg[$i]}"
 done
 
 
 ##install print queue
-echo "Install print queue"
-lpadmin -p $printname -L "$location" -E -v ipp://$ip -P "/Library/Printers/PPDs/Contents/Resources/$driver" -o printer-is-shared=false
-
-## set tray options for this printer
-echo "Set Printer Tray Options"
-for (( i=0; i<${#trayOpt[@]}; i++ ));
+echo ""
+echo "Install print queues"
+for (( i=0; i<${#pnam[@]}; i++ ));
 do
-  lpadmin -p "$printname" -o ${trayOpt[$i]}
+  echo "${pnam[$i]}"
+  queuename="${pnam[$i]// /_}" # replace spaces with underscores. -D arguement renames print queue
+  # https://www.cups.org/doc/man-lpadmin.html
+  lpadmin -p "$queuename" -L "${locn[$i]}" -E -v ipp://${ipad[$i]} -P "/Library/Printers/PPDs/Contents/Resources/${drvr[$i]}" -o printer-is-shared=false
 done
 
-## set custom options for this printer
-echo "Set Default Options"
-for (( i=0; i<${#customOpt[@]}; i++ ));
+## set tray options for this printer - note bash does not support multidimensional arrays so different language may be needed
+echo ""
+echo "Set Printer Tray Options"
+for (( i=0; i<${#pnam[@]}; i++ ));
 do
-  lpadmin -p "$printname" -o ${customOpt[$i]}
+  queuename="${pnam[$i]// /_}"
+  lpadmin -p "$queuename" -o "${trayOpt1[$i]}"
+  lpadmin -p "$queuename" -o "${trayOpt2[$i]}"
+  lpadmin -p "$queuename" -o "${trayOpt3[$i]}"
+  lpadmin -p "$queuename" -o "${trayOpt4[$i]}"
+  lpadmin -p "$queuename" -o "${trayOpt5[$i]}"
+  lpadmin -p "$queuename" -o "${trayOpt6[$i]}"
+  lpadmin -p "$queuename" -o "${trayOpt7[$i]}"
+  lpadmin -p "$queuename" -o "${trayOpt8[$i]}"
+  echo lpadmin -p "$queuename" -o "${trayOpt9[$i]}"
+done
+
+## set custom options for this printer - note bash does not support multidimensional arrays so different language may be needed
+echo ""
+echo "Set Default Options"
+for (( i=0; i<${#pnam[@]}; i++ ));
+do
+  queuename="${pnam[$i]// /_}"
+  lpadmin -p "$queuename" -o "${customOpt1[$i]}"
+  lpadmin -p "$queuename" -o "${customOpt2[$i]}"
+  lpadmin -p "$queuename" -o "${customOpt3[$i]}"
+  lpadmin -p "$queuename" -o "${customOpt4[$i]}"
+  lpadmin -p "$queuename" -o "${customOpt5[$i]}"
+  lpadmin -p "$queuename" -o "${customOpt6[$i]}"
+  lpadmin -p "$queuename" -o "${customOpt7[$i]}"
+  lpadmin -p "$queuename" -o "${customOpt8[$i]}"
+  echo lpadmin -p "$queuename" -o "${customOpt9[$i]}"
+done
+
+## rename printers
+echo ""
+echo "Rename print queues"
+for (( i=0; i<${#pnam[@]}; i++ ));
+do
+  queuename="${pnam[$i]// /_}" # replace spaces with underscores. -D arguement renames print queue
+  # https://www.cups.org/doc/man-lpadmin.html
+  lpadmin -p "$queuename" -D "${pnam[$i]}"
 done
