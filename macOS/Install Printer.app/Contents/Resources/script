@@ -1,4 +1,7 @@
 # Setup printer
+# v 1.1
+# last updated - 2019/09/12
+
 
 # paths
 parentdir="../../.."
@@ -48,7 +51,7 @@ do
   echo "${pnam[$i]}"
   queuename="${pnam[$i]// /_}" # replace spaces with underscores. -D arguement renames print queue
   # https://www.cups.org/doc/man-lpadmin.html
-  lpadmin -p "$queuename" -L "${locn[$i]}" -E -v ipp://${ipad[$i]} -P "/Library/Printers/PPDs/Contents/Resources/${drvr[$i]}" -o printer-is-shared=false
+  lpadmin -p "$queuename" -L "${locn[$i]}" -E -v ${conn[$i]} -P "/Library/Printers/PPDs/Contents/Resources/${drvr[$i]}" -o printer-is-shared=false
 done
 
 ## set tray options for this printer - note bash does not support multidimensional arrays so different language may be needed

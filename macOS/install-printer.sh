@@ -1,4 +1,7 @@
 # Setup printer
+# v 1.1.2
+# last updated - 2019/09/16
+
 
 # paths
 parentdir="../../.."
@@ -41,6 +44,9 @@ done
 
 
 ##install print queue
+#
+## show connected print ports
+## lpstat -s
 echo ""
 echo "Install print queues"
 for (( i=0; i<${#pnam[@]}; i++ ));
@@ -48,10 +54,14 @@ do
   echo "${pnam[$i]}"
   queuename="${pnam[$i]// /_}" # replace spaces with underscores. -D arguement renames print queue
   # https://www.cups.org/doc/man-lpadmin.html
-  lpadmin -p "$queuename" -L "${locn[$i]}" -E -v ipp://${ipad[$i]} -P "/Library/Printers/PPDs/Contents/Resources/${drvr[$i]}" -o printer-is-shared=false
+  lpadmin -p "$queuename" -L "${locn[$i]}" -E -v ${conn[$i]} -P "/Library/Printers/PPDs/Contents/Resources/${drvr[$i]}" -o printer-is-shared=false
 done
 
 ## set tray options for this printer - note bash does not support multidimensional arrays so different language may be needed
+#
+## show mode printer supports
+## lpoptions -l -p $printname
+
 echo ""
 echo "Set Printer Tray Options"
 for (( i=0; i<${#pnam[@]}; i++ ));
